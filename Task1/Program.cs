@@ -17,9 +17,13 @@ namespace Task1
             }
 
             string Uri = args[0];
+            string configPath = Directory.GetCurrentDirectory();
+            configPath = Directory.GetParent(configPath).ToString();
+            configPath = Directory.GetParent(configPath).ToString();
+            configPath = Directory.GetParent(configPath).ToString();
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(configPath)
                 .AddJsonFile("Config.json")
                 .Build();
             var settings = new Settings();
@@ -27,7 +31,7 @@ namespace Task1
 
             int nesting = Int16.Parse(settings.Nesting);
 
-
+            //Console.WriteLine(nesting + settings.FileName);
             Link websiteToTest = new Link(Uri, nesting, settings);
 
             string mainLinkStatus = websiteToTest.CheckWebsiteStatus();

@@ -1,0 +1,10 @@
+{
+  "Nesting": 1,
+  "FileName": "file.csv",
+
+  "EmailTo": "console_app@mail.ru",
+  "EmailFrom": "console_app@mail.ru",
+  "EmailFromPassword": "VoPaTrI3kr2)",
+  "SmptAddress": "smpt.mail.ru",
+  "SmptPort": 2525
+}
