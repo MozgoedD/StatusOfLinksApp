@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Task1": {
+      "commandName": "Project",
+      "commandLineArgs": "https://umkonline.ru/"
+    },
+    "newProfile1": {
+      "commandName": "Executable"
+    }
+  }
+}
