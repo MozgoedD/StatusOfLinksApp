@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Task1.Classes;
 
-namespace Task1
+namespace Task1.Models
 {
     static class LinkFactory
     {

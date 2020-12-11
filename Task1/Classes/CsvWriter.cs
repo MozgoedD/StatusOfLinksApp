@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Task1
+namespace Task1.Classes
 {
     static class CsvWriter
     {

@@ -7,8 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Task1.Classes;
 
-namespace Task1
+namespace Task1.Models
 {
     class Link
     {

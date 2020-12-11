@@ -6,13 +6,13 @@ Islamov Azat
 
 ## Startup Process
 ```    
-Task1.exe [somelink]
+Task1.exe [a link to the config file] [somelink]
 ```
 or
 ```    
-dotnet Task1.dll [somelink]
+dotnet Task1.dll [a link to the config file] [somelink]
 ```
 Example
 ```    
-dotnet Task1.dll https://umkonline.ru/
+dotnet Task1.dll C:\Users\IslamovA2\Documents\Config.json https://umkonline.ru/
 ```
