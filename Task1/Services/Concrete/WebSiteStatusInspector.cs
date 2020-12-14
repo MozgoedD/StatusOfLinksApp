@@ -6,8 +6,14 @@ using Task1.Services.Abstract;
 
 namespace Task1.Services.Concrete
 {
-    class WebSiteStatusInspector : IWebSiteStatusInspector
+    public class WebSiteStatusInspector : IWebSiteStatusInspector
     {
+        IExceptionNotificationService exceptionNotificationServiceManager;
+
+        public WebSiteStatusInspector(IExceptionNotificationService exceptionNotificationServiceManager)
+        {
+            this.exceptionNotificationServiceManager = exceptionNotificationServiceManager;
+        }
         public int CheckWebsiteStatus(string URI)
         {
             try
@@ -30,8 +36,7 @@ namespace Task1.Services.Concrete
             }
             catch (Exception e)
             {
-                Console.WriteLine(URI+" Exception:");
-                Console.WriteLine(e);
+                exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
                 return -1;
             }
         }

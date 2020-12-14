@@ -10,6 +10,13 @@ namespace Task1.Services.Concrete
 {
     public class ParserService : IParserService
     {
+        IExceptionNotificationService exceptionNotificationServiceManager;
+
+        public ParserService(IExceptionNotificationService exceptionNotificationServiceManager)
+        {
+            this.exceptionNotificationServiceManager = exceptionNotificationServiceManager;
+        }
+
         Regex RegExprToParseAllLinks = new Regex(@"<a\s+(?:[^>]*?\s+)?href=""([^""]*)""");
         string Html;
         public void ParseAllLinksFromWebSite(WebSiteModel baseWebSite)
@@ -21,7 +28,7 @@ namespace Task1.Services.Concrete
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
             }
             foreach (Match match in RegExprToParseAllLinks.Matches(Html))
             {

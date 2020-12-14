@@ -6,13 +6,13 @@ using Task1.Services.Abstract;
 
 namespace Task1
 {
-    public class EachLinkProcedure
+    public class MainProcedure
     {
         IParserService parserServiceManager;
         IWebSiteStatusInspector webSiteStatusInspectorManager;
         IReportService reportServiceManager;
 
-        public EachLinkProcedure(IParserService parserServiceManager,
+        public MainProcedure(IParserService parserServiceManager,
             IWebSiteStatusInspector webSiteStatusInspectorManager, IReportService reportServiceManager)
         {
             this.parserServiceManager = parserServiceManager;

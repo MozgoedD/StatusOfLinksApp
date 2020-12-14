@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Task1.Models;
 using Task1.Classes;
 using Task1.Services.Concrete;
-using Task1.ServiceManagers;
 using Task1.Services.Abstract;
 
 namespace Task1
@@ -23,22 +22,17 @@ namespace Task1
             var configPath = args[0];
             var Uri = args[1];
 
-            var userSettingsBuilder = new UserSettingsFromJsonBuilder(configPath);
-            var userSettingsBuilderManager = new UserSettingsBuilderManager(userSettingsBuilder);
+            var userSettingsBuilderManager = new UserSettingsFromJsonBuilder(configPath);
             var userSettings = userSettingsBuilderManager.GetUserSettings();
 
-            var parserService = new ParserService();
-            var parserServiceManager = new ParserServiceManager(parserService);
-
-            var reportService = new CsvReportWriter(userSettings.FileName, userSettings.FilePath);
-            var reportServiceManager = new ReportServiceManager(reportService);
-
-            var webSiteStatusInspector = new WebSiteStatusInspector();
-            var webSiteStatusInspectorManager = new WebSiteStatusInspectorManager(webSiteStatusInspector);
-
-            var exceptionNotificationService = new ExceptionEmailNotifyService(userSettings.EmailFrom, userSettings.EmailTo,
+            var exceptionNotificationServiceManager = new ExceptionEmailNotifyService(userSettings.EmailFrom, userSettings.EmailTo,
                 userSettings.EmailFromPassword, userSettings.SmptAddress, userSettings.SmptPort);
-            var exceptionNotificationServiceManager = new ExceptionNotificationServiceManager(exceptionNotificationService);
+
+            var parserServiceManager = new ParserService(exceptionNotificationServiceManager);
+
+            var reportServiceManager = new CsvReportWriter(userSettings.FileName, userSettings.FilePath);
+
+            var webSiteStatusInspectorManager = new WebSiteStatusInspector(exceptionNotificationServiceManager);
 
             var mainLink = new WebSiteModel(Uri, userSettings.Nesting);
             mainLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(mainLink.URI);
@@ -48,7 +42,7 @@ namespace Task1
             if (mainLink.StatusCode.ToString().StartsWith("2") || mainLink.StatusCode.ToString().StartsWith("3"))
             {
                 Console.WriteLine($"Program In Progress...");
-                var eachLinkProcedure = new EachLinkProcedure(parserServiceManager,
+                var eachLinkProcedure = new MainProcedure(parserServiceManager,
                     webSiteStatusInspectorManager, reportServiceManager);
                 try
                 {
