@@ -1,10 +1,11 @@
 {
   "Nesting": 1,
-  "FileName": "file.csv",
+  "FileName": "fileName",
+  "FilePath": "C:\\Users\\IslamovA2\\Documents\\CodeResults\\",
 
-  "EmailTo": "console_app@mail.ru",
-  "EmailFrom": "console_app@mail.ru",
-  "EmailFromPassword": "VoPaTrI3kr2)",
-  "SmptAddress": "smpt.mail.ru",
-  "SmptPort": 2525
+  "EmailTo": "mzgdaz@gmail.com",
+  "EmailFrom": "testmvcapptask@gmail.com",
+  "EmailFromPassword": "[Password]",
+  "SmptAddress": "smtp.gmail.com",
+  "SmptPort": 587
 }
