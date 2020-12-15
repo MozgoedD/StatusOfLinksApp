@@ -7,10 +7,10 @@ using Task1.Services.Abstract;
 
 namespace Task1.Services.Concrete
 {
-    public class CsvReportWriter : IReportService
+    public class ReportServiceCsvWriter : IReportService
     {
         string ReportPath;
-        public CsvReportWriter(string fileName, string filePath)
+        public ReportServiceCsvWriter(string fileName, string filePath)
         {
             ReportPath = $"{filePath}{fileName}.csv";
         }

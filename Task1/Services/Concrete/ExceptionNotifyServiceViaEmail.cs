@@ -7,7 +7,7 @@ using Task1.Services.Abstract;
 
 namespace Task1.Services.Concrete
 {
-    public class ExceptionEmailNotifyService : IExceptionNotificationService
+    public class ExceptionNotifyServiceViaEmail : IExceptionNotificationService
     {
         string EmailFrom;
         string EmailTo;
@@ -15,7 +15,7 @@ namespace Task1.Services.Concrete
         string SmptAddress;
         int SmptPort;
 
-        public ExceptionEmailNotifyService(string EmailFrom, string EmailTO,
+        public ExceptionNotifyServiceViaEmail(string EmailFrom, string EmailTO,
             string EmailPassword, string SmptAddress, int SmptPort)
         {
             this.EmailFrom = EmailFrom;
@@ -37,7 +37,6 @@ namespace Task1.Services.Concrete
 
             SmtpClient smpt = new SmtpClient(SmptAddress, SmptPort);
             smpt.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
-
             smpt.EnableSsl = true;
             try
             {

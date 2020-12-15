@@ -2,16 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Task1.Classes;
+using Task1.Models;
 using Task1.Services.Abstract;
 
 namespace Task1.Services.Concrete
 {
-    public class UserSettingsFromJsonBuilder : IUserSettignsBuilder
+    public class UserSettingsBuilderFromJson : IUserSettignsBuilder
     {
         IConfigurationRoot configuration;
 
-        public UserSettingsFromJsonBuilder(string configPath)
+        public UserSettingsBuilderFromJson(string configPath)
         {
             configuration = new ConfigurationBuilder()
                 .AddJsonFile(configPath)

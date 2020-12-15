@@ -11,14 +11,14 @@ namespace Task1.Services.Concrete
     public class ParserService : IParserService
     {
         IExceptionNotificationService exceptionNotificationServiceManager;
+        Regex RegExprToParseAllLinks = new Regex(@"<a\s+(?:[^>]*?\s+)?href=""([^""]*)""");
+        string Html;
 
         public ParserService(IExceptionNotificationService exceptionNotificationServiceManager)
         {
             this.exceptionNotificationServiceManager = exceptionNotificationServiceManager;
         }
 
-        Regex RegExprToParseAllLinks = new Regex(@"<a\s+(?:[^>]*?\s+)?href=""([^""]*)""");
-        string Html;
         public void ParseAllLinksFromWebSite(WebSiteModel baseWebSite)
         {
             try

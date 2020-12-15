@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Task1.Classes
+namespace Task1.Models
 {
     public class Settings
     {

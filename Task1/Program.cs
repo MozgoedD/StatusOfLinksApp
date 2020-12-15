@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Task1.Models;
-using Task1.Classes;
 using Task1.Services.Concrete;
 using Task1.Services.Abstract;
 
@@ -22,15 +21,15 @@ namespace Task1
             var configPath = args[0];
             var Uri = args[1];
 
-            var userSettingsBuilderManager = new UserSettingsFromJsonBuilder(configPath);
+            var userSettingsBuilderManager = new UserSettingsBuilderFromJson(configPath);
             var userSettings = userSettingsBuilderManager.GetUserSettings();
 
-            var exceptionNotificationServiceManager = new ExceptionEmailNotifyService(userSettings.EmailFrom, userSettings.EmailTo,
+            var exceptionNotificationServiceManager = new ExceptionNotifyServiceViaEmail(userSettings.EmailFrom, userSettings.EmailTo,
                 userSettings.EmailFromPassword, userSettings.SmptAddress, userSettings.SmptPort);
 
             var parserServiceManager = new ParserService(exceptionNotificationServiceManager);
 
-            var reportServiceManager = new CsvReportWriter(userSettings.FileName, userSettings.FilePath);
+            var reportServiceManager = new ReportServiceCsvWriter(userSettings.FileName, userSettings.FilePath);
 
             var webSiteStatusInspectorManager = new WebSiteStatusInspector(exceptionNotificationServiceManager);
 
