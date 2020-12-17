@@ -36,8 +36,6 @@ namespace Task1
             var mainLink = new WebSiteModel(Uri, userSettings.Nesting);
             mainLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(mainLink.URI);
 
-            Console.WriteLine(userSettings.FilePath + userSettings.FileName);
-
             if (mainLink.StatusCode.ToString().StartsWith("2") || mainLink.StatusCode.ToString().StartsWith("3"))
             {
                 Console.WriteLine($"Program In Progress...");

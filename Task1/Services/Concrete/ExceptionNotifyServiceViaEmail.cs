@@ -27,25 +27,26 @@ namespace Task1.Services.Concrete
 
         public void ExceptionNotify(string exceptionMessage)
         {
-            MailAddress emailFrom = new MailAddress(EmailFrom, "Console App Mail");
-            MailAddress emailTo = new MailAddress(EmailTo);
-
-            MailMessage message = new MailMessage(emailFrom, emailTo);
-            message.Subject = $"Expetion Occured";
-            message.Body = $"{exceptionMessage}";
-            message.IsBodyHtml = false;
-
-            SmtpClient smpt = new SmtpClient(SmptAddress, SmptPort);
-            smpt.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
-            smpt.EnableSsl = true;
-            try
+            using (var smpt = new SmtpClient(SmptAddress, SmptPort))
+            using (var message = new MailMessage())
             {
-                smpt.Send(message);
-                Console.WriteLine($"Exception message was sent:\n{message.Body} was sent");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Exception message was not sent:\n{message.Body}  \n\nEmail Exception: {e.Message}");
+                message.From = new MailAddress(EmailFrom, "Console App Mail");
+                message.Bcc.Add(new MailAddress(EmailTo));
+                message.Subject = "Exception Occured";
+                message.Body = exceptionMessage;
+                message.IsBodyHtml = false;
+
+                smpt.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
+                smpt.EnableSsl = true;
+                try
+                {
+                    smpt.Send(message);
+                    Console.WriteLine($"Exception message was sent:\n{message.Body} was sent");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Exception message was not sent:\n{message.Body}  \n\nEmail Exception: {e.Message}");
+                }
             }
         }
     }

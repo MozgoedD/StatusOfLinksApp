@@ -18,20 +18,24 @@ namespace Task1.Services.Concrete
         {
             try
             {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(URI);
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-                return (int)resp.StatusCode;
+                var req = (HttpWebRequest)WebRequest.Create(URI);
+                using (var resp = (HttpWebResponse)req.GetResponse())
+                {
+                    return (int)resp.StatusCode;
+                }
             }
             catch (WebException e)
             {
-                var responce = e.Response as HttpWebResponse;
-                if (responce != null)
+                using (var resp = e.Response as HttpWebResponse)
                 {
-                    return (int)responce.StatusCode;
-                }
-                else
-                {
-                    return -1;
+                    if (resp != null)
+                    {
+                        return (int)resp.StatusCode;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
                 }
             }
             catch (Exception e)
