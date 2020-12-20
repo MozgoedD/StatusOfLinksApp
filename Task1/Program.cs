@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Task1.Models;
 using Task1.Services.Concrete;
 using Task1.Services.Abstract;
+using Ninject;
+using System.Reflection;
+using Ninject.Parameters;
 
 namespace Task1
 {
@@ -21,17 +24,28 @@ namespace Task1
             var configPath = args[0];
             var Uri = args[1];
 
-            var userSettingsBuilderManager = new UserSettingsBuilderFromJson(configPath);
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+
+            var userSettingsBuilderManager = kernel.Get<IUserSettignsBuilder>(new ConstructorArgument("configPath", configPath));
             var userSettings = userSettingsBuilderManager.GetUserSettings();
 
-            var exceptionNotificationServiceManager = new ExceptionNotifyServiceViaEmail(userSettings.EmailFrom, userSettings.EmailTo,
-                userSettings.EmailFromPassword, userSettings.SmptAddress, userSettings.SmptPort);
+            var exceptionNotificationServiceManager = kernel.Get<IExceptionNotificationService>(
+                new ConstructorArgument("EmailFrom", userSettings.EmailFrom),
+                new ConstructorArgument("EmailTO", userSettings.EmailTo),
+                new ConstructorArgument("EmailPassword", userSettings.EmailFromPassword),
+                new ConstructorArgument("SmptAddress", userSettings.SmptAddress),
+                new ConstructorArgument("SmptPort", userSettings.SmptPort));
 
-            var parserServiceManager = new ParserService(exceptionNotificationServiceManager);
+            var parserServiceManager = kernel.Get<IParserService>(new ConstructorArgument(
+                "exceptionNotificationServiceManager", exceptionNotificationServiceManager));
 
-            var reportServiceManager = new ReportServiceCsvWriter(userSettings.FileName, userSettings.FilePath);
+            var reportServiceManager = kernel.Get<IReportService>(
+                new ConstructorArgument("fileName", userSettings.FileName),
+                new ConstructorArgument("filePath", userSettings.FilePath));
 
-            var webSiteStatusInspectorManager = new WebSiteStatusInspector(exceptionNotificationServiceManager);
+            var webSiteStatusInspectorManager = kernel.Get<IWebSiteStatusInspector>(
+                new ConstructorArgument("exceptionNotificationServiceManager", exceptionNotificationServiceManager));
 
             var mainLink = new WebSiteModel(Uri, userSettings.Nesting);
             mainLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(mainLink.URI);
@@ -45,7 +59,7 @@ namespace Task1
                 {
                     eachLinkProcedure.StartMainProcedure(mainLink);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
                 }
