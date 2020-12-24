@@ -8,27 +8,27 @@ namespace Task1
 {
     public class MainProcedure
     {
-        private IParserService parserServiceManager;
-        private IWebSiteStatusInspector webSiteStatusInspectorManager;
-        private IReportService reportServiceManager;
+        private IParserService _parserServiceManager;
+        private IWebSiteStatusInspector _webSiteStatusInspectorManager;
+        private IReportService _reportServiceManager;
 
         public MainProcedure(IParserService parserServiceManager,
             IWebSiteStatusInspector webSiteStatusInspectorManager, IReportService reportServiceManager)
         {
-            this.parserServiceManager = parserServiceManager;
-            this.webSiteStatusInspectorManager = webSiteStatusInspectorManager;
-            this.reportServiceManager = reportServiceManager;
+            _parserServiceManager = parserServiceManager;
+            _webSiteStatusInspectorManager = webSiteStatusInspectorManager;
+            _reportServiceManager = reportServiceManager;
         }
 
         public void StartMainProcedure(WebSiteModel baseWebSite)
         {
-            parserServiceManager.ParseAllLinksFromWebSite(baseWebSite);
+            _parserServiceManager.ParseAllLinksFromWebSite(baseWebSite);
             Console.WriteLine($"Working with {baseWebSite.URI}");
             foreach (var containedLink in baseWebSite.ContaiedLinks)
             {
-                containedLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(containedLink.URI);
+                containedLink.StatusCode = _webSiteStatusInspectorManager.CheckWebsiteStatus(containedLink.URI);
             }
-            reportServiceManager.WriteReport(baseWebSite);
+            _reportServiceManager.WriteReport(baseWebSite);
             if (baseWebSite.Nesting >= 2)
             {
                 foreach (var containedLink in baseWebSite.ContaiedLinks)

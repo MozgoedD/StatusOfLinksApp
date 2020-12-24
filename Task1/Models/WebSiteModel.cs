@@ -14,13 +14,13 @@ namespace Task1.Models
         public string RootUrl { get; }
         public int Nesting { get; }
 
-        public WebSiteModel(string URI, int Nesting)
+        public WebSiteModel(string uri, int nesting)
         {
             ContaiedLinks = new List<WebSiteModel>();
             StatusCode = -1;
-            this.URI = URI;
-            this.Nesting = Nesting;
-            RootUrl = regExprToFindRootUrl.Match(URI).Value + "/";
+            URI = uri;
+            Nesting = nesting;
+            RootUrl = regExprToFindRootUrl.Match(uri).Value + "/";
         }
 
         public override string ToString()

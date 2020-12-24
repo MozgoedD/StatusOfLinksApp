@@ -8,11 +8,11 @@ namespace Task1.Services.Concrete
 {
     public class WebSiteStatusInspector : IWebSiteStatusInspector
     {
-        private IExceptionNotificationService exceptionNotificationServiceManager;
+        private IExceptionNotificationService _exceptionNotificationServiceManager;
 
         public WebSiteStatusInspector(IExceptionNotificationService exceptionNotificationServiceManager)
         {
-            this.exceptionNotificationServiceManager = exceptionNotificationServiceManager;
+            _exceptionNotificationServiceManager = exceptionNotificationServiceManager;
         }
 
         public int CheckWebsiteStatus(string uri)
@@ -41,7 +41,7 @@ namespace Task1.Services.Concrete
             }
             catch (Exception e)
             {
-                exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
+                _exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
                 return -1;
             }
         }

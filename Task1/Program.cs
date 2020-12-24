@@ -14,7 +14,7 @@ namespace Task1
                 return 0;
             }
             var configPath = args[0];
-            var Uri = args[1];
+            var uri = args[1];
 
             var ninjectInitializer = new NinjectInitializer();
 
@@ -25,7 +25,7 @@ namespace Task1
                 out IReportService reportServiceManager,
                 out IWebSiteStatusInspector webSiteStatusInspectorManager);
 
-            var mainLink = new WebSiteModel(Uri, userSettings.Nesting);
+            var mainLink = new WebSiteModel(uri, userSettings.Nesting);
             mainLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(mainLink.URI);
 
             if (mainLink.StatusCode.ToString().StartsWith("2") || mainLink.StatusCode.ToString().StartsWith("3"))

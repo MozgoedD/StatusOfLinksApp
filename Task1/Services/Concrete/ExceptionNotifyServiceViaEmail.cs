@@ -9,8 +9,8 @@ namespace Task1.Services.Concrete
 {
     public class ExceptionNotifyServiceViaEmail : IExceptionNotificationService
     {
-        public IEmailService _emailService;
-        public string recipientAddress;
+        private IEmailService _emailService;
+        private string recipientAddress;
 
         public ExceptionNotifyServiceViaEmail(IEmailService emailService, string recipientAddress)
         {
