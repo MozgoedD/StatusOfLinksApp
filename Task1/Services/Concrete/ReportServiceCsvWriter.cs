@@ -9,11 +9,13 @@ namespace Task1.Services.Concrete
 {
     public class ReportServiceCsvWriter : IReportService
     {
-        string ReportPath;
+        private string reportPath;
+
         public ReportServiceCsvWriter(string fileName, string filePath)
         {
-            ReportPath = $"{filePath}{fileName}.csv";
+            reportPath = $"{filePath}{fileName}.csv";
         }
+
         public void WriteReport(WebSiteModel WebSiteToReport)
         {
             var csv = new StringBuilder();
@@ -23,7 +25,7 @@ namespace Task1.Services.Concrete
                 csv.AppendLine(containedLink.ToString());
             }
             csv.AppendLine("NEXT WEBSITE LINKS,  NEXT WEBSITE LINKS");
-            File.AppendAllText(ReportPath, csv.ToString());
+            File.AppendAllText(reportPath, csv.ToString());
         }
     }
 }

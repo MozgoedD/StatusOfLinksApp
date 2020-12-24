@@ -16,6 +16,7 @@ namespace Task1
             Bind<IReportService>().To<ReportServiceCsvWriter>();
             Bind<IUserSettignsBuilder>().To<UserSettingsBuilderFromJson>();
             Bind<IWebSiteStatusInspector>().To<WebSiteStatusInspector>();
+            Bind<IEmailService>().To<EmailService>();
         }
     }
 }

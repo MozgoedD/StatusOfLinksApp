@@ -8,9 +8,9 @@ namespace Task1
 {
     public class MainProcedure
     {
-        IParserService parserServiceManager;
-        IWebSiteStatusInspector webSiteStatusInspectorManager;
-        IReportService reportServiceManager;
+        private IParserService parserServiceManager;
+        private IWebSiteStatusInspector webSiteStatusInspectorManager;
+        private IReportService reportServiceManager;
 
         public MainProcedure(IParserService parserServiceManager,
             IWebSiteStatusInspector webSiteStatusInspectorManager, IReportService reportServiceManager)

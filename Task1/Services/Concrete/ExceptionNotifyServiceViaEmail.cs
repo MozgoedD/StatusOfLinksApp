@@ -9,45 +9,18 @@ namespace Task1.Services.Concrete
 {
     public class ExceptionNotifyServiceViaEmail : IExceptionNotificationService
     {
-        string EmailFrom;
-        string EmailTo;
-        string EmailPassword;
-        string SmptAddress;
-        int SmptPort;
+        public IEmailService _emailService;
+        public string recipientAddress;
 
-        public ExceptionNotifyServiceViaEmail(string EmailFrom, string EmailTO,
-            string EmailPassword, string SmptAddress, int SmptPort)
+        public ExceptionNotifyServiceViaEmail(IEmailService emailService, string recipientAddress)
         {
-            this.EmailFrom = EmailFrom;
-            this.EmailTo = EmailTO;
-            this.EmailPassword = EmailPassword;
-            this.SmptAddress = SmptAddress;
-            this.SmptPort = SmptPort;
+            _emailService = emailService;
+            this.recipientAddress = recipientAddress;
         }
 
         public void ExceptionNotify(string exceptionMessage)
         {
-            using (var smpt = new SmtpClient(SmptAddress, SmptPort))
-            using (var message = new MailMessage())
-            {
-                message.From = new MailAddress(EmailFrom, "Console App Mail");
-                message.Bcc.Add(new MailAddress(EmailTo));
-                message.Subject = "Exception Occured";
-                message.Body = exceptionMessage;
-                message.IsBodyHtml = false;
-
-                smpt.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
-                smpt.EnableSsl = true;
-                try
-                {
-                    smpt.Send(message);
-                    Console.WriteLine($"Exception message was sent:\n{message.Body} was sent");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Exception message was not sent:\n{message.Body}  \n\nEmail Exception: {e.Message}");
-                }
-            }
+            _emailService.sendEmail("Exception Occured", exceptionMessage, recipientAddress);
         }
     }
 }

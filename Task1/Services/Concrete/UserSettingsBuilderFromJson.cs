@@ -9,7 +9,7 @@ namespace Task1.Services.Concrete
 {
     public class UserSettingsBuilderFromJson : IUserSettignsBuilder
     {
-        IConfigurationRoot configuration;
+        private IConfigurationRoot configuration;
 
         public UserSettingsBuilderFromJson(string configPath)
         {

@@ -8,17 +8,18 @@ namespace Task1.Services.Concrete
 {
     public class WebSiteStatusInspector : IWebSiteStatusInspector
     {
-        IExceptionNotificationService exceptionNotificationServiceManager;
+        private IExceptionNotificationService exceptionNotificationServiceManager;
 
         public WebSiteStatusInspector(IExceptionNotificationService exceptionNotificationServiceManager)
         {
             this.exceptionNotificationServiceManager = exceptionNotificationServiceManager;
         }
-        public int CheckWebsiteStatus(string URI)
+
+        public int CheckWebsiteStatus(string uri)
         {
             try
             {
-                var req = (HttpWebRequest)WebRequest.Create(URI);
+                var req = (HttpWebRequest)WebRequest.Create(uri);
                 using (var resp = (HttpWebResponse)req.GetResponse())
                 {
                     return (int)resp.StatusCode;

@@ -5,7 +5,7 @@
 
   "EmailTo": "mzgdaz@gmail.com",
   "EmailFrom": "testmvcapptask@gmail.com",
-  "EmailFromPassword": "[Password]",
+  "EmailFromPassword": "[password]",
   "SmptAddress": "smtp.gmail.com",
   "SmptPort": 587
 }

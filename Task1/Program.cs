@@ -1,14 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using Task1.Models;
-using Task1.Services.Concrete;
 using Task1.Services.Abstract;
-using Ninject;
-using System.Reflection;
-using Ninject.Parameters;
 
 namespace Task1
 {
@@ -24,28 +16,14 @@ namespace Task1
             var configPath = args[0];
             var Uri = args[1];
 
-            var kernel = new StandardKernel();
-            kernel.Load(Assembly.GetExecutingAssembly());
+            var ninjectInitializer = new NinjectInitializer();
 
-            var userSettingsBuilderManager = kernel.Get<IUserSettignsBuilder>(new ConstructorArgument("configPath", configPath));
-            var userSettings = userSettingsBuilderManager.GetUserSettings();
-
-            var exceptionNotificationServiceManager = kernel.Get<IExceptionNotificationService>(
-                new ConstructorArgument("EmailFrom", userSettings.EmailFrom),
-                new ConstructorArgument("EmailTO", userSettings.EmailTo),
-                new ConstructorArgument("EmailPassword", userSettings.EmailFromPassword),
-                new ConstructorArgument("SmptAddress", userSettings.SmptAddress),
-                new ConstructorArgument("SmptPort", userSettings.SmptPort));
-
-            var parserServiceManager = kernel.Get<IParserService>(new ConstructorArgument(
-                "exceptionNotificationServiceManager", exceptionNotificationServiceManager));
-
-            var reportServiceManager = kernel.Get<IReportService>(
-                new ConstructorArgument("fileName", userSettings.FileName),
-                new ConstructorArgument("filePath", userSettings.FilePath));
-
-            var webSiteStatusInspectorManager = kernel.Get<IWebSiteStatusInspector>(
-                new ConstructorArgument("exceptionNotificationServiceManager", exceptionNotificationServiceManager));
+            ninjectInitializer.InitNinject(configPath,
+                out Settings userSettings,
+                out IExceptionNotificationService exceptionNotificationServiceManager,
+                out IParserService parserServiceManager,
+                out IReportService reportServiceManager,
+                out IWebSiteStatusInspector webSiteStatusInspectorManager);
 
             var mainLink = new WebSiteModel(Uri, userSettings.Nesting);
             mainLink.StatusCode = webSiteStatusInspectorManager.CheckWebsiteStatus(mainLink.URI);

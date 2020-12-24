@@ -10,9 +10,9 @@ namespace Task1.Services.Concrete
 {
     public class ParserService : IParserService
     {
-        IExceptionNotificationService exceptionNotificationServiceManager;
-        Regex RegExprToParseAllLinks = new Regex(@"<a\s+(?:[^>]*?\s+)?href=""([^""]*)""");
-        string Html;
+        private IExceptionNotificationService exceptionNotificationServiceManager;
+        private Regex regExprToParseAllLinks = new Regex(@"<a\s+(?:[^>]*?\s+)?href=""([^""]*)""");
+        private string html;
 
         public ParserService(IExceptionNotificationService exceptionNotificationServiceManager)
         {
@@ -24,13 +24,13 @@ namespace Task1.Services.Concrete
             try
             {
                 var baseUriObj = new Uri(baseWebSite.URI);
-                Html = new WebClient().DownloadString(baseUriObj);
+                html = new WebClient().DownloadString(baseUriObj);
             }
             catch (Exception e)
             {
                 exceptionNotificationServiceManager.ExceptionNotify(e.ToString());
             }
-            foreach (Match match in RegExprToParseAllLinks.Matches(Html))
+            foreach (Match match in regExprToParseAllLinks.Matches(html))
             {
                 var rawLink = match.Groups[1].ToString();
                 var containedUriObj = new Uri(rawLink, UriKind.RelativeOrAbsolute);
